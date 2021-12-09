@@ -1,0 +1,41 @@
+<html>
+<head>
+    <title>User Selection</title>
+</head>
+<body>
+<a href="AdminHome.html">Go back home</a><br>
+<form action="ViewUserPosts.php" method="post">
+    <fieldset>
+        <legend>Choose a user:</legend>
+        <select name="users" id="user">
+        <?php
+        // connection to DB
+        $mysqli = new mysqli("mysql.eecs.ku.edu", "n791d901", "oos4em7A", "n791d901");
+        if ($mysqli->connect_errno) {
+            printf("Connect failed: %s\n", $mysqli->connect_error);
+            exit();
+        }
+
+        $db_get = "SELECT * FROM Users;";
+
+        if($result = $mysqli->query($db_get)) {
+            if(mysqli_num_rows($result) == 0)
+            {
+                echo "There are no users to display. It's quiet in here... Too quiet <br>";
+
+            } else {
+                
+                while($row = mysqli_fetch_array($result))
+                {
+                    echo "<option value='" . $row["user_id"] ."'>" . $row['user_id'] . "</option>";
+                };
+            }
+        }
+        ?>
+        </select>
+        <br><br>
+        <input type="submit" value="Search User">
+    </fieldset>
+</form>
+</body>
+</html>
